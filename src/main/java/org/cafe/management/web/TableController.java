@@ -7,6 +7,7 @@ import org.cafe.management.domain.UserEntity;
 import org.cafe.management.enums.RoleType;
 import org.cafe.management.repository.TableRepository;
 import org.cafe.management.repository.UserRepository;
+import org.cafe.management.util.SecurityUtils;
 import org.cafe.management.web.dto.TableDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -43,23 +44,23 @@ public class TableController {
     }
 
     @RolesAllowed(RoleType.Name.ROLE_WAITER)
-    @GetMapping(value = "/assign/entry")
-    public ModelAndView assignEntry() {
-        ModelAndView modelAndView = new ModelAndView("table-assign");
-        TableDto dto = new TableDto();
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        TableEntity tableEntity = tableRepository.findByUserId(userDetails.getId());
-        if (tableEntity != null) {
-            dto.setName(tableEntity.getName());
+    @GetMapping(value = "/assign/list/page/{page}")
+    public ModelAndView getAssign(@PathVariable("page") int page) {
+        ModelAndView modelAndView = new ModelAndView("table-assign-list");
+        PageRequest pageable = PageRequest.of(page - 1, 5);
+        Page<TableEntity> articlePage = tableRepository.findByUserId(SecurityUtils.getUserDetails().getId(), pageable);
+        int totalPages = articlePage.getTotalPages();
+        if (totalPages > 0) {
+            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
+            modelAndView.addObject("pageNumbers", pageNumbers);
         }
-        modelAndView.addObject("dto", dto);
+        modelAndView.addObject("items", articlePage.getContent());
         return modelAndView;
     }
 
     @RolesAllowed(RoleType.Name.ROLE_MANAGER)
     @GetMapping(value = "/list/page/{page}")
-    public ModelAndView getPageByPage(@PathVariable("page") int page) {
+    public ModelAndView get(@PathVariable("page") int page) {
         ModelAndView modelAndView = new ModelAndView("table-list");
         PageRequest pageable = PageRequest.of(page - 1, 5);
         Page<TableEntity> articlePage = tableRepository.findAll(pageable);

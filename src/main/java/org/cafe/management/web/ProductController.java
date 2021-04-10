@@ -36,7 +36,7 @@ public class ProductController {
 
     @RolesAllowed(RoleType.Name.ROLE_MANAGER)
     @GetMapping(value = "/list/page/{page}")
-    public ModelAndView getPageByPage(@PathVariable("page") int page) {
+    public ModelAndView get(@PathVariable("page") int page) {
         ModelAndView modelAndView = new ModelAndView("product-list");
         PageRequest pageable = PageRequest.of(page - 1, 5);
         Page<ProductEntity> articlePage = productRepository.findAll(pageable);

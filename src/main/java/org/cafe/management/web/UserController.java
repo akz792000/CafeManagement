@@ -39,7 +39,7 @@ public class UserController {
 
     @RolesAllowed(RoleType.Name.ROLE_MANAGER)
     @GetMapping(value = "/list/page/{page}")
-    public ModelAndView getPageByPage(@PathVariable("page") int page) {
+    public ModelAndView get(@PathVariable("page") int page) {
         ModelAndView modelAndView = new ModelAndView("user-list");
         PageRequest pageable = PageRequest.of(page - 1, 5);
         Page<UserEntity> articlePage = userRepository.findAll(pageable);
