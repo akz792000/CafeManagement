@@ -1,7 +1,6 @@
 package org.cafe.management.web;
 
 import lombok.RequiredArgsConstructor;
-import org.cafe.management.core.UserDetailsImpl;
 import org.cafe.management.domain.TableEntity;
 import org.cafe.management.domain.UserEntity;
 import org.cafe.management.enums.RoleType;
@@ -11,9 +10,6 @@ import org.cafe.management.util.SecurityUtils;
 import org.cafe.management.web.dto.TableDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +22,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+/**
+ * @author Ali Karimizandi
+ * @since 2021
+ */
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("/table")

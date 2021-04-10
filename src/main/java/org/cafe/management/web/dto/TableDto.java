@@ -4,6 +4,10 @@ import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;
 
+/**
+ * @author Ali Karimizandi
+ * @since 2021
+ */
 @Data
 public class TableDto {
 

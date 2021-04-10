@@ -5,6 +5,10 @@ import lombok.Data;
 import javax.persistence.*;
 import java.util.Collection;
 
+/**
+ * @author Ali Karimizandi
+ * @since 2021
+ */
 @Data
 @Entity(name = "cafe_product")
 public class ProductEntity {

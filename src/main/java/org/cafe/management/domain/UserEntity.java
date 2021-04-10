@@ -7,6 +7,10 @@ import org.cafe.management.enums.RoleType;
 import javax.persistence.*;
 import java.util.Collection;
 
+/**
+ * @author Ali Karimizandi
+ * @since 2021
+ */
 @NoArgsConstructor
 @Data
 @Entity(name = "cafe_user")

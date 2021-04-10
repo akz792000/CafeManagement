@@ -4,6 +4,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+/**
+ * @author Ali Karimizandi
+ * @since 2021
+ */
 @Controller
 public class MainController {
 

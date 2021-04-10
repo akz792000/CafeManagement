@@ -8,6 +8,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+/**
+ * @author Ali Karimizandi
+ * @since 2021
+ */
 @Configuration
 public class InitializeConfiguration {
 

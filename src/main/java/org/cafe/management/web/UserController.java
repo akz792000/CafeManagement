@@ -20,6 +20,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+/**
+ * @author Ali Karimizandi
+ * @since 2021
+ */
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("/user")

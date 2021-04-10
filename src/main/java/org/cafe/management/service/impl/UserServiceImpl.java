@@ -12,6 +12,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 
+/**
+ * @author Ali Karimizandi
+ * @since 2021
+ */
 @RequiredArgsConstructor
 @Service
 public class UserServiceImpl implements UserService {

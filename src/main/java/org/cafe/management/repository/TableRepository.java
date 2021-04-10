@@ -8,6 +8,10 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ * @author Ali Karimizandi
+ * @since 2021
+ */
 @Repository
 public interface TableRepository extends JpaRepository<TableEntity, Long> {
 

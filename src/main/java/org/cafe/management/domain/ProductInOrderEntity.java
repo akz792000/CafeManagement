@@ -5,6 +5,10 @@ import org.cafe.management.enums.ProductInOrderStatusType;
 
 import javax.persistence.*;
 
+/**
+ * @author Ali Karimizandi
+ * @since 2021
+ */
 @Data
 @Entity(name = "cafe_product_in_order")
 public class ProductInOrderEntity {

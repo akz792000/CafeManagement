@@ -6,6 +6,10 @@ import org.springframework.security.core.userdetails.User;
 
 import java.util.Collection;
 
+/**
+ * @author Ali Karimizandi
+ * @since 2021
+ */
 public class UserDetailsImpl extends User {
 
     @Getter
