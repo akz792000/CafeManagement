@@ -18,10 +18,11 @@
                     <li sec:authorize="hasRole('ROLE_MANAGER')"><a th:href="@{/user/list/page/1}">User</a></li>
                     <li sec:authorize="hasRole('ROLE_MANAGER')"><a th:href="@{/table/list/page/1}">Table</a></li>
                     <li sec:authorize="hasRole('ROLE_MANAGER')"><a th:href="@{/product/list/page/1}">Product</a></li>
+                    <li sec:authorize="hasRole('ROLE_WAITER')"><a th:href="@{/table/assign/entry}">Table Assign</a></li>
                 </ul>
 
                 <ul class="nav navbar-nav navbar-right">
-                    <li sec:authorize="isAuthenticated()"><a th:href="@{/logout}">Logout</a></li>
+                    <li sec:authorize="isAuthenticated()"><a th:href="@{/logout}"><u><span sec:authentication="principal.username">...</span></u> Logout</a></li>
                 </ul>
             </div>
         </div>

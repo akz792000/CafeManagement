@@ -9,4 +9,6 @@ public interface TableRepository extends JpaRepository<TableEntity, Long> {
 
     TableEntity findByName(String name);
 
+    TableEntity findByUserId(Long id);
+
 }

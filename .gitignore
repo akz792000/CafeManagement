@@ -1,13 +1,10 @@
-.gradle
 build/
-!**/src/main/**/build/
-!**/src/test/**/build/
+classes/
+target/
+out/
 
 ### IntelliJ IDEA ###
 .idea
 *.iws
 *.iml
 *.ipr
-out/
-!**/src/main/**/out/
-!**/src/test/**/out/

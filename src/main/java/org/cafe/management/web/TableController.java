@@ -1,6 +1,7 @@
 package org.cafe.management.web;
 
 import lombok.RequiredArgsConstructor;
+import org.cafe.management.core.UserDetailsImpl;
 import org.cafe.management.domain.TableEntity;
 import org.cafe.management.domain.UserEntity;
 import org.cafe.management.enums.RoleType;
@@ -9,11 +10,15 @@ import org.cafe.management.repository.UserRepository;
 import org.cafe.management.web.dto.TableDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,13 +34,30 @@ public class TableController {
 
     private final UserRepository userRepository;
 
+    @RolesAllowed(RoleType.Name.ROLE_MANAGER)
     @GetMapping(value = "/entry")
-    public ModelAndView create() {
+    public ModelAndView entry() {
         ModelAndView modelAndView = new ModelAndView("table-edit");
         modelAndView.addObject("dto", new TableDto());
         return modelAndView;
     }
 
+    @RolesAllowed(RoleType.Name.ROLE_WAITER)
+    @GetMapping(value = "/assign/entry")
+    public ModelAndView assignEntry() {
+        ModelAndView modelAndView = new ModelAndView("table-assign");
+        TableDto dto = new TableDto();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        TableEntity tableEntity = tableRepository.findByUserId(userDetails.getId());
+        if (tableEntity != null) {
+            dto.setName(tableEntity.getName());
+        }
+        modelAndView.addObject("dto", dto);
+        return modelAndView;
+    }
+
+    @RolesAllowed(RoleType.Name.ROLE_MANAGER)
     @GetMapping(value = "/list/page/{page}")
     public ModelAndView getPageByPage(@PathVariable("page") int page) {
         ModelAndView modelAndView = new ModelAndView("table-list");
@@ -50,6 +72,7 @@ public class TableController {
         return modelAndView;
     }
 
+    @RolesAllowed(RoleType.Name.ROLE_MANAGER)
     @PostMapping(value = "/persist")
     public String persist(@ModelAttribute("dto") @Valid TableDto dto, BindingResult result) {
         TableEntity entity = tableRepository.findByName(dto.getName());
@@ -65,6 +88,7 @@ public class TableController {
         return "redirect:/table/entry?success";
     }
 
+    @RolesAllowed(RoleType.Name.ROLE_MANAGER)
     @GetMapping(value = "/user/{name}")
     public ModelAndView getUser(@PathVariable("name") String name) {
         ModelAndView modelAndView = new ModelAndView("table-user");
@@ -81,6 +105,7 @@ public class TableController {
         return modelAndView;
     }
 
+    @RolesAllowed(RoleType.Name.ROLE_MANAGER)
     @PostMapping(value = "/user/persist")
     public String userPersist(@ModelAttribute("dto") @Valid TableDto dto, BindingResult result) {
         TableEntity tableEntity = tableRepository.findByName(dto.getName());

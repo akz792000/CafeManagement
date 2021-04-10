@@ -2,15 +2,18 @@ package org.cafe.management.web;
 
 import lombok.RequiredArgsConstructor;
 import org.cafe.management.domain.ProductEntity;
+import org.cafe.management.enums.RoleType;
 import org.cafe.management.repository.ProductRepository;
 import org.cafe.management.web.dto.ProductDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,13 +26,15 @@ public class ProductController {
 
     private final ProductRepository productRepository;
 
+    @RolesAllowed(RoleType.Name.ROLE_MANAGER)
     @GetMapping(value = "/entry")
-    public ModelAndView create() {
+    public ModelAndView entry() {
         ModelAndView modelAndView = new ModelAndView("product-edit");
         modelAndView.addObject("dto", new ProductDto());
         return modelAndView;
     }
 
+    @RolesAllowed(RoleType.Name.ROLE_MANAGER)
     @GetMapping(value = "/list/page/{page}")
     public ModelAndView getPageByPage(@PathVariable("page") int page) {
         ModelAndView modelAndView = new ModelAndView("product-list");
@@ -44,6 +49,7 @@ public class ProductController {
         return modelAndView;
     }
 
+    @RolesAllowed(RoleType.Name.ROLE_MANAGER)
     @PostMapping(value = "/persist")
     public String persist(@ModelAttribute("dto") @Valid ProductDto dto, BindingResult result) {
         ProductEntity entity = productRepository.findByName(dto.getName());
