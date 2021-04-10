@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import org.cafe.management.enums.RoleType;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 @NoArgsConstructor
 @Data
@@ -22,5 +23,8 @@ public class UserEntity {
 
     @Enumerated(EnumType.STRING)
     private RoleType roleType;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Collection<TableEntity> tables;
 
 }

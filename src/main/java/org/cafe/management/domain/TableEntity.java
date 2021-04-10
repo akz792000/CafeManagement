@@ -25,7 +25,7 @@ public class TableEntity {
     private Collection<OrderEntity> orders;
 
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private UserEntity user;
 
 }
