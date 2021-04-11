@@ -62,7 +62,7 @@ public class TableController {
     @GetMapping(value = "/list/page/{page}")
     public ModelAndView get(@PathVariable("page") int page) {
         ModelAndView modelAndView = new ModelAndView("table-list");
-        PageRequest pageable = PageRequest.of(page - 1, 3);
+        PageRequest pageable = PageRequest.of(page - 1, 5);
         Page<TableEntity> articlePage = tableRepository.findAll(pageable);
         int totalPages = articlePage.getTotalPages();
         if (totalPages > 0) {

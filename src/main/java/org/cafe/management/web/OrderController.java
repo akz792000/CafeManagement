@@ -3,6 +3,7 @@ package org.cafe.management.web;
 import lombok.RequiredArgsConstructor;
 import org.cafe.management.domain.OrderEntity;
 import org.cafe.management.domain.TableEntity;
+import org.cafe.management.domain.UserEntity;
 import org.cafe.management.enums.OrderStatusType;
 import org.cafe.management.enums.RoleType;
 import org.cafe.management.repository.OrderRepository;
@@ -19,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -47,10 +49,19 @@ public class OrderController {
     }
 
     @RolesAllowed(RoleType.Name.ROLE_WAITER)
+    @GetMapping(value = "/edit/{id}")
+    public ModelAndView edit(@PathVariable("id") Long id) {
+        ModelAndView modelAndView = new ModelAndView("order-edit");
+        Optional<OrderEntity> orderEntity = orderRepository.findById(id);
+        modelAndView.addObject("dto", orderEntity.get());
+        return modelAndView;
+    }
+
+    @RolesAllowed(RoleType.Name.ROLE_WAITER)
     @GetMapping(value = "/table/{tableName}/list/page/{page}")
     public ModelAndView get(@PathVariable("tableName") String tableName, @PathVariable("page") int page) {
         ModelAndView modelAndView = new ModelAndView("order-list");
-        PageRequest pageable = PageRequest.of(page - 1, 3);
+        PageRequest pageable = PageRequest.of(page - 1, 5);
         Page<OrderEntity> articlePage = orderRepository.findByTableNameAndTableUserId(tableName, SecurityUtils.getUserDetails().getId(), pageable);
         int totalPages = articlePage.getTotalPages();
         if (totalPages > 0) {
@@ -78,6 +89,21 @@ public class OrderController {
         newEntity.setTable(tableEntity);
         orderRepository.save(newEntity);
         return "redirect:/order/entry/" + dto.getTable().getName() + "/?success";
+    }
+
+    @RolesAllowed(RoleType.Name.ROLE_WAITER)
+    @PostMapping(value = "/merge")
+    public String merge(@ModelAttribute("dto") @Valid OrderDto dto, BindingResult result) {
+        Optional<OrderEntity> entity = orderRepository.findById(dto.getId());
+        if (!entity.isPresent()) {
+            result.rejectValue("status", null, "order not exist");
+        }
+        if (result.hasErrors()) {
+            return "order-edit";
+        }
+        entity.get().setStatus(dto.getStatus());
+        orderRepository.save(entity.get());
+        return "redirect:/order/table/" + dto.getTable().getName() + "/list/page/1";
     }
 
 }

@@ -41,7 +41,7 @@ public class ProductController {
     @GetMapping(value = "/list/page/{page}")
     public ModelAndView get(@PathVariable("page") int page) {
         ModelAndView modelAndView = new ModelAndView("product-list");
-        PageRequest pageable = PageRequest.of(page - 1, 3);
+        PageRequest pageable = PageRequest.of(page - 1, 5);
         Page<ProductEntity> articlePage = productRepository.findAll(pageable);
         int totalPages = articlePage.getTotalPages();
         if (totalPages > 0) {

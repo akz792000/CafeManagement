@@ -1,6 +1,7 @@
 package org.cafe.management.web.dto;
 
 import lombok.Data;
+import org.cafe.management.enums.OrderStatusType;
 
 import javax.validation.constraints.NotEmpty;
 
@@ -11,9 +12,13 @@ import javax.validation.constraints.NotEmpty;
 @Data
 public class OrderDto {
 
+    private Long id;
+
     @NotEmpty
     private String name;
 
     private TableDto table = new TableDto();
+
+    private OrderStatusType status;
 
 }
