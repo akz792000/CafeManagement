@@ -53,6 +53,17 @@ public class ProductInOrderController {
     }
 
     @RolesAllowed(RoleType.Name.ROLE_WAITER)
+    @GetMapping(value = "/edit/{id}")
+    public ModelAndView edit(@PathVariable("id") Long id) {
+        ModelAndView modelAndView = new ModelAndView("product-in-order-edit");
+        ProductInOrderEntity productInOrderEntity = productInOrderRepository.findById(id).get();
+        OrderEntity orderEntity = orderRepository.findById(productInOrderEntity.getOrder().getId()).get();
+        modelAndView.addObject("tableName", orderEntity.getTable().getName());
+        modelAndView.addObject("dto", productInOrderEntity);
+        return modelAndView;
+    }
+
+    @RolesAllowed(RoleType.Name.ROLE_WAITER)
     @GetMapping(value = "/order/{orderId}/list/page/{page}")
     public ModelAndView get(@PathVariable("orderId") Long orderId, @PathVariable("page") int page) {
         ModelAndView modelAndView = new ModelAndView("product-in-order-list");
@@ -88,6 +99,21 @@ public class ProductInOrderController {
         newEntity.setStatus(ProductInOrderStatusType.ACTIVE);
         productInOrderRepository.save(newEntity);
         return "redirect:/product-in-order/entry/order/" + dto.getOrder().getId() + "/?success";
+    }
+
+    @RolesAllowed(RoleType.Name.ROLE_WAITER)
+    @PostMapping(value = "/merge")
+    public String merge(@ModelAttribute("dto") @Valid ProductInOrderDto dto, BindingResult result) {
+        Optional<ProductInOrderEntity> entity = productInOrderRepository.findById(dto.getId());
+        if (!entity.isPresent()) {
+            result.rejectValue("status", null, "product in order not exist");
+        }
+        if (result.hasErrors()) {
+            return "product-in-order-edit";
+        }
+        entity.get().setStatus(dto.getStatus());
+        productInOrderRepository.save(entity.get());
+        return "redirect:/product-in-order/order/" + dto.getOrder().getId() + "/list/page/1";
     }
 
 }

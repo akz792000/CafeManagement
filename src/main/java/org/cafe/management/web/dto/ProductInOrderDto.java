@@ -1,11 +1,7 @@
 package org.cafe.management.web.dto;
 
 import lombok.Data;
-import org.cafe.management.domain.OrderEntity;
-import org.cafe.management.domain.ProductEntity;
 import org.cafe.management.enums.ProductInOrderStatusType;
-
-import javax.persistence.*;
 
 /**
  * @author Ali Karimizandi
@@ -21,5 +17,7 @@ public class ProductInOrderDto {
     private OrderDto order;
 
     private Long amount;
+
+    private ProductInOrderStatusType status;
 
 }

@@ -23,7 +23,10 @@
                         <td th:text="${item.id}"></td>
                         <td th:text="${item.product.name}"></td>
                         <td th:text="${item.amount}"></td>
-                        <td th:text="${item.status}"></td>
+                        <td>
+                            <b th:text="${item.status}"></b>
+                            <a class="page-link" th:if="${item.status.toString() == 'ACTIVE'}" th:href="@{|/product-in-order/edit/${item.id}|}">  Edit</a>
+                        </td>
                     </tr>
                     </tbody>
                 </table>
