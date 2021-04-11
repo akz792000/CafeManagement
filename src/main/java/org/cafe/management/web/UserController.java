@@ -36,7 +36,7 @@ public class UserController {
     @RolesAllowed(RoleType.Name.ROLE_MANAGER)
     @GetMapping(value = "/entry")
     public ModelAndView entry() {
-        ModelAndView modelAndView = new ModelAndView("user-edit");
+        ModelAndView modelAndView = new ModelAndView("user-entry");
         modelAndView.addObject("dto", new UserDto());
         return modelAndView;
     }
@@ -45,7 +45,7 @@ public class UserController {
     @GetMapping(value = "/list/page/{page}")
     public ModelAndView get(@PathVariable("page") int page) {
         ModelAndView modelAndView = new ModelAndView("user-list");
-        PageRequest pageable = PageRequest.of(page - 1, 5);
+        PageRequest pageable = PageRequest.of(page - 1, 3);
         Page<UserEntity> articlePage = userRepository.findAll(pageable);
         int totalPages = articlePage.getTotalPages();
         if (totalPages > 0) {
@@ -64,7 +64,7 @@ public class UserController {
             result.rejectValue("username", null, "Username is exist.");
         }
         if (result.hasErrors()) {
-            return "user-edit";
+            return "user-entry";
         }
         UserEntity newEntity = new UserEntity();
         newEntity.setUsername(dto.getUsername());

@@ -18,11 +18,15 @@ public class OrderEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private Long code;
+    private String name;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private TableEntity table;
 
     @OneToMany(mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Collection<ProductInOrderEntity> productInOrders;
 
+    @Enumerated(EnumType.STRING)
     private OrderStatusType status;
 
 }

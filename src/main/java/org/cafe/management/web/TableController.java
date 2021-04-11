@@ -38,7 +38,7 @@ public class TableController {
     @RolesAllowed(RoleType.Name.ROLE_MANAGER)
     @GetMapping(value = "/entry")
     public ModelAndView entry() {
-        ModelAndView modelAndView = new ModelAndView("table-edit");
+        ModelAndView modelAndView = new ModelAndView("table-entry");
         modelAndView.addObject("dto", new TableDto());
         return modelAndView;
     }
@@ -62,7 +62,7 @@ public class TableController {
     @GetMapping(value = "/list/page/{page}")
     public ModelAndView get(@PathVariable("page") int page) {
         ModelAndView modelAndView = new ModelAndView("table-list");
-        PageRequest pageable = PageRequest.of(page - 1, 5);
+        PageRequest pageable = PageRequest.of(page - 1, 3);
         Page<TableEntity> articlePage = tableRepository.findAll(pageable);
         int totalPages = articlePage.getTotalPages();
         if (totalPages > 0) {
@@ -81,7 +81,7 @@ public class TableController {
             result.rejectValue("name", null, "Name is exist.");
         }
         if (result.hasErrors()) {
-            return "table-edit";
+            return "table-entry";
         }
         TableEntity newEntity = new TableEntity();
         newEntity.setName(dto.getName());

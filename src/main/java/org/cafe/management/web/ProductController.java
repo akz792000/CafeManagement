@@ -32,7 +32,7 @@ public class ProductController {
     @RolesAllowed(RoleType.Name.ROLE_MANAGER)
     @GetMapping(value = "/entry")
     public ModelAndView entry() {
-        ModelAndView modelAndView = new ModelAndView("product-edit");
+        ModelAndView modelAndView = new ModelAndView("product-entry");
         modelAndView.addObject("dto", new ProductDto());
         return modelAndView;
     }
@@ -41,7 +41,7 @@ public class ProductController {
     @GetMapping(value = "/list/page/{page}")
     public ModelAndView get(@PathVariable("page") int page) {
         ModelAndView modelAndView = new ModelAndView("product-list");
-        PageRequest pageable = PageRequest.of(page - 1, 5);
+        PageRequest pageable = PageRequest.of(page - 1, 3);
         Page<ProductEntity> articlePage = productRepository.findAll(pageable);
         int totalPages = articlePage.getTotalPages();
         if (totalPages > 0) {
@@ -60,7 +60,7 @@ public class ProductController {
             result.rejectValue("name", null, "Name is exist.");
         }
         if (result.hasErrors()) {
-            return "product-edit";
+            return "product-entry";
         }
         ProductEntity newEntity = new ProductEntity();
         newEntity.setName(dto.getName());

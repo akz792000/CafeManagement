@@ -19,15 +19,8 @@ public class TableEntity {
 
     private String name;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "cafe_table_order",
-            joinColumns = @JoinColumn(
-                    name = "table_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(
-                    name = "order_id", referencedColumnName = "id"))
+    @OneToMany(mappedBy = "table", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Collection<OrderEntity> orders;
-
 
     @ManyToOne(fetch = FetchType.LAZY)
     private UserEntity user;
