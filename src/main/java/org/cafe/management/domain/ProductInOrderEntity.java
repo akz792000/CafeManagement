@@ -17,12 +17,15 @@ public class ProductInOrderEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private ProductInOrderStatusType status;
-
     @ManyToOne(fetch = FetchType.LAZY)
     private ProductEntity product;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private OrderEntity order;
+
+    private Long amount;
+
+    @Enumerated(EnumType.STRING)
+    private ProductInOrderStatusType status;
 
 }

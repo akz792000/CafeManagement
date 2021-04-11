@@ -16,7 +16,7 @@
                        th:each="error : ${#fields.errors('global')}" th:text="${error}">Validation
                         error</p>
                     <div class="form-group" th:classappend="${#fields.hasErrors('table.name')}? 'has-error':''">
-                        <label for="tableName" class="control-label">TableName</label>
+                        <label for="tableName" class="control-label">Table Name</label>
                         <input id="tableName" class="form-control" th:field="*{table.name}" readonly/>
                         <p class="error-message" th:each="error : ${#fields.errors('table.name')}" th:text="${error}">
                             Validation error</p>
