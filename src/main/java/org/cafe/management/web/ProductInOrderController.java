@@ -111,6 +111,7 @@ public class ProductInOrderController {
         if (result.hasErrors()) {
             return "product-in-order-edit";
         }
+        entity.get().setAmount(dto.getAmount());
         entity.get().setStatus(dto.getStatus());
         productInOrderRepository.save(entity.get());
         return "redirect:/product-in-order/order/" + dto.getOrder().getId() + "/list/page/1";
